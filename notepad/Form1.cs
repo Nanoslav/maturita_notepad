@@ -21,6 +21,7 @@ namespace notepad
         string filePath = "";
         bool editing = false;
         string originalText = "";
+        bool cancelPrevent = false;
 
         #region File Menu
 
@@ -40,10 +41,13 @@ namespace notepad
                 }
             }
 
-            textBoxEditor.Clear();
-            filePath = "";
-            originalText = "";
-            this.Text = "Notepad - New File";
+            if (!cancelPrevent)
+            {
+                textBoxEditor.Clear();
+                filePath = "";
+                originalText = "";
+                this.Text = "Notepad - New File";
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -107,13 +111,61 @@ namespace notepad
             }
             else if (saveFile == DialogResult.Cancel)
             {
-                return;
+                cancelPrevent = true;
             }
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+        #endregion
+
+        #region Edit Menu
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBoxEditor.Undo();
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBoxEditor.SelectAll();
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBoxEditor.Cut();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBoxEditor.Copy();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBoxEditor.Paste();
+        }
+
+        private void dateAndTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string date = DateTime.Now.ToString();
+            textBoxEditor.Text.Insert(textBoxEditor.SelectionStart, date);
+        }
+
+        private void darkAndLightThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!darkAndLightThemeToolStripMenuItem.Checked)
+            {
+                textBoxEditor.BackColor = Color.White;
+                textBoxEditor.ForeColor = Color.Black;
+            }
+            else
+            {
+                textBoxEditor.BackColor = Color.Black;
+                textBoxEditor.ForeColor = Color.White;
+            }
         }
         #endregion
 
@@ -143,6 +195,12 @@ namespace notepad
                     e.Cancel = true;
                 }
             }
+            if (cancelPrevent)
+            {
+                e.Cancel = true;
+            }
+
+            cancelPrevent = false;
         }
     }
 }
