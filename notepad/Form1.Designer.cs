@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.textBoxEditor = new System.Windows.Forms.TextBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -55,9 +56,18 @@
             this.authorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoAboutMZToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.RowColumn = new System.Windows.Forms.ToolStripStatusLabel();
+            this.CharCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
+            this.statusStrip.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxEditor
@@ -66,16 +76,23 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxEditor.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxEditor.ContextMenuStrip = this.contextMenuStrip1;
             this.textBoxEditor.Location = new System.Drawing.Point(0, 24);
             this.textBoxEditor.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxEditor.Multiline = true;
             this.textBoxEditor.Name = "textBoxEditor";
+            this.textBoxEditor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxEditor.Size = new System.Drawing.Size(1205, 624);
             this.textBoxEditor.TabIndex = 0;
+            this.textBoxEditor.WordWrap = false;
+            this.textBoxEditor.Click += new System.EventHandler(this.textBoxEditor_Click);
             this.textBoxEditor.TextChanged += new System.EventHandler(this.textBoxEditor_TextChanged);
+            this.textBoxEditor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxEditor_KeyDown);
+            this.textBoxEditor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxEditor_KeyUp);
             // 
             // menuStrip
             // 
+            this.menuStrip.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -229,15 +246,18 @@
             // 
             // lineBreakToolStripMenuItem
             // 
+            this.lineBreakToolStripMenuItem.CheckOnClick = true;
             this.lineBreakToolStripMenuItem.Name = "lineBreakToolStripMenuItem";
             this.lineBreakToolStripMenuItem.Size = new System.Drawing.Size(257, 44);
             this.lineBreakToolStripMenuItem.Text = "Line break";
+            this.lineBreakToolStripMenuItem.Click += new System.EventHandler(this.lineBreakToolStripMenuItem_Click);
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
             this.fontToolStripMenuItem.Size = new System.Drawing.Size(257, 44);
             this.fontToolStripMenuItem.Text = "Font...";
+            this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -253,21 +273,42 @@
             this.authorToolStripMenuItem.Name = "authorToolStripMenuItem";
             this.authorToolStripMenuItem.Size = new System.Drawing.Size(301, 44);
             this.authorToolStripMenuItem.Text = "Author";
+            this.authorToolStripMenuItem.Click += new System.EventHandler(this.authorToolStripMenuItem_Click);
             // 
             // infoAboutMZToolStripMenuItem
             // 
             this.infoAboutMZToolStripMenuItem.Name = "infoAboutMZToolStripMenuItem";
             this.infoAboutMZToolStripMenuItem.Size = new System.Drawing.Size(301, 44);
             this.infoAboutMZToolStripMenuItem.Text = "Info about MZ";
+            this.infoAboutMZToolStripMenuItem.Click += new System.EventHandler(this.infoAboutMZToolStripMenuItem_Click);
             // 
             // statusStrip
             // 
+            this.statusStrip.BackColor = System.Drawing.SystemColors.Control;
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.statusStrip.Location = new System.Drawing.Point(0, 648);
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RowColumn,
+            this.CharCount});
+            this.statusStrip.Location = new System.Drawing.Point(0, 628);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1205, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1205, 42);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // RowColumn
+            // 
+            this.RowColumn.AutoSize = false;
+            this.RowColumn.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.RowColumn.Name = "RowColumn";
+            this.RowColumn.Size = new System.Drawing.Size(170, 32);
+            this.RowColumn.Text = "Row 1, Col 1";
+            // 
+            // CharCount
+            // 
+            this.CharCount.AutoSize = false;
+            this.CharCount.Name = "CharCount";
+            this.CharCount.Size = new System.Drawing.Size(170, 32);
+            this.CharCount.Text = "Char count: 0";
             // 
             // openFileDialog1
             // 
@@ -279,6 +320,37 @@
             // 
             this.saveFileDialog1.DefaultExt = "txt";
             this.saveFileDialog1.Filter = "Textové soubory|*.txt|Všechny soubory|*.*";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(144, 118);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(143, 38);
+            this.toolStripMenuItem1.Text = "Cut";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(143, 38);
+            this.toolStripMenuItem2.Text = "Copy";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(143, 38);
+            this.toolStripMenuItem3.Text = "Paste";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -299,6 +371,9 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -334,6 +409,13 @@
         private System.Windows.Forms.ToolStripMenuItem infoAboutMZToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.FontDialog fontDialog1;
+        private System.Windows.Forms.ToolStripStatusLabel RowColumn;
+        private System.Windows.Forms.ToolStripStatusLabel CharCount;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }
 

@@ -150,8 +150,10 @@ namespace notepad
 
         private void dateAndTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string date = DateTime.Now.ToString();
-            textBoxEditor.Text.Insert(textBoxEditor.SelectionStart, date);
+            DateTime date = DateTime.Now;
+            int index = textBoxEditor.SelectionStart;
+            textBoxEditor.Text = textBoxEditor.Text.Insert(index, date.ToString());
+            textBoxEditor.SelectionStart = index + date.ToString().Length;
         }
 
         private void darkAndLightThemeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -169,6 +171,69 @@ namespace notepad
         }
         #endregion
 
+        #region Format Menu
+
+        private void lineBreakToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lineBreakToolStripMenuItem.Checked)
+            {
+                textBoxEditor.WordWrap = true;
+            }
+            else
+            {
+                textBoxEditor.WordWrap = false;
+            }
+        }
+
+        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult fontDialog = fontDialog1.ShowDialog();
+            if (fontDialog == DialogResult.OK)
+            {
+                textBoxEditor.Font = fontDialog1.Font;
+            }
+        }
+
+        #endregion
+
+        #region About Menu
+
+        private void authorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Name & surname: xxxx yyyy\nClass: zzz", "Author", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void infoAboutMZToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Maturita exam 2023/2024\nText editor", "MZ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        #endregion
+
+        private void textBoxEditor_Click(object sender, EventArgs e)
+        {
+            int row = textBoxEditor.GetLineFromCharIndex(textBoxEditor.SelectionStart);
+            int col = textBoxEditor.SelectionStart - textBoxEditor.GetFirstCharIndexFromLine(row);
+
+            RowColumn.Text = "Row " + (row + 1) + ", Col " + (col + 1);
+        }
+
+        private void textBoxEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            int row = textBoxEditor.GetLineFromCharIndex(textBoxEditor.SelectionStart);
+            int col = textBoxEditor.SelectionStart - textBoxEditor.GetFirstCharIndexFromLine(row);
+
+            RowColumn.Text = "Row " + (row + 1) + ", Col " + (col + 1);
+        }
+
+        private void textBoxEditor_KeyUp(object sender, KeyEventArgs e)
+        {
+            int row = textBoxEditor.GetLineFromCharIndex(textBoxEditor.SelectionStart);
+            int col = textBoxEditor.SelectionStart - textBoxEditor.GetFirstCharIndexFromLine(row);
+
+            RowColumn.Text = "Row " + (row + 1) + ", Col " + (col + 1);
+        }
+
         private void textBoxEditor_TextChanged(object sender, EventArgs e)
         {
             if (textBoxEditor.Text == originalText)
@@ -178,6 +243,15 @@ namespace notepad
             else
             {
                 editing = true;
+            }
+
+            if (textBoxEditor.Lines.Count() > 1)
+            {
+                CharCount.Text = "Char count: " + (1 + textBoxEditor.Text.Length - textBoxEditor.Lines.Count());
+            }
+            else
+            {
+                CharCount.Text = "Char count: " + textBoxEditor.Text.Length;
             }
         }
 
